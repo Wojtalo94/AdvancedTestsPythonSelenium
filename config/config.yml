@@ -1,2 +1,5 @@
 # YAML
 base_url: 'https://tapsshop.pl/'
+
+# test settings
+max_timeout: 8
