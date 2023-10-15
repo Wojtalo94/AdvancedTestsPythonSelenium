@@ -2,6 +2,6 @@
 base_url: 'https://tapsshop.pl/'
 
 # test settings
-max_timeout: 8
+max_wait: 8
 headless: true
 fullscreen: true
