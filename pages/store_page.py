@@ -2,7 +2,8 @@ from selenium.webdriver.common.by import By
 from helpers.helpers import find_item_by_name
 from pages.base_page import BasePage
 from pages.regions.item import Item
-
+from pages.regions.menu_region import MenuRegion
+import time
 
 class StorePage(BasePage):
     _products_list = (By.CSS_SELECTOR, "ul[class='products columns-4']")
@@ -18,3 +19,7 @@ class StorePage(BasePage):
 
     def add_item_to_cart(self, item_name):
         find_item_by_name(self.items, item_name).click_add_to_cart_button()
+
+        menu = MenuRegion(self)
+        time.sleep(5)
+        assert menu.amount != "0,00"
