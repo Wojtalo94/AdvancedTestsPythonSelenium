@@ -16,3 +16,5 @@ class TestOrderProcessing:
         assert home_page.menu.amount == '65,00'
 
         home_page.menu.menu_pop_up().go_to_the_cart()
+
+        cart_page.assert_item_data("belt", "65,00", "1", "65,00")
