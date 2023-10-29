@@ -43,7 +43,7 @@ class CartItem(BasePage):
 
     @property
     def quantity(self):
-        item_quantity = self.find_element(*self._name).text
+        item_quantity = self.find_element(*self._quantity).text
         return item_quantity.get_atribute("value")
 
     @property
