@@ -27,5 +27,5 @@ class CartPopUpRegion(BaseRegion):
     _view_cart_button = (By.XPATH, ".//a[contains(text(), 'Zobacz koszyk')]")
 
     def go_to_the_cart(self):
-        self.find_element(*self._view_cart_button).click()
+        self.wait.until(self.ec.visibility_of_element_located(self._view_cart_button)).click()
         return self

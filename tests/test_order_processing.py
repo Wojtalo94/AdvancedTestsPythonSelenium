@@ -1,4 +1,5 @@
 import pytest
+from pages.cart_page import CartPage
 from pages.home_page import HomePage
 from pages.store_page import StorePage
 
@@ -17,4 +18,7 @@ class TestOrderProcessing:
 
         home_page.menu.menu_pop_up().go_to_the_cart()
 
-        cart_page.assert_item_data("belt", "65,00", "1", "65,00")
+        cart_page = CartPage(self.driver).wait_for_page_to_load()
+        cart_page.assert_item_data("Belt", "65,00")
+
+       # cart_page.assert_item_data("Belt", "65,00", "1", "65,00")

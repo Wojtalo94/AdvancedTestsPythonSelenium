@@ -1,4 +1,5 @@
 from selenium.webdriver.common.by import By
+from helpers.helpers import find_item_by_name
 from pages.base_page import BasePage
 
 
@@ -13,6 +14,16 @@ class CartPage(BasePage):
     @property
     def items_in_the_cart(self):
         return [CartItem(self, product) for product in self.find_elements(*self._product_in_the_cart)]
+
+    def assert_item_data(self, item_name, item_unit_price, quantity="1", total_price=None):
+        if total_price is None:
+            total_price = item_unit_price
+
+        item = find_item_by_name(self.items_in_the_cart, item_name)
+
+        assert item.item_unit_price == item_unit_price
+        assert item.quantity == quantity
+        assert item.item_total_price == total_price
 
 
 class CartItem(BasePage):
