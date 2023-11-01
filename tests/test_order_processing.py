@@ -31,3 +31,5 @@ class TestOrderProcessing:
         checkout_page.fill_first_name("John").fill_last_name("Doe")
         checkout_page.fill_address("Test Street 33").fill_postal_code("33-333").fill_city("London")
         checkout_page.fill_phone_number("123456789").fill_mail("john@test.com")
+        checkout_page.buy_and_pay()
+        checkout_page.verify_success_message()

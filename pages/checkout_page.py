@@ -11,6 +11,9 @@ class CheckoutPage(BasePage):
     _city = (By.CSS_SELECTOR, "input[name='billing_city']")
     _phone_number = (By.CSS_SELECTOR, "input[name='billing_phone']")
     _mail = (By.CSS_SELECTOR, "input[name='billing_email']")
+    _buy_and_pay_button = (By.CSS_SELECTOR, "button[id='place_order']")
+    _payment_blocker = (By.CSS_SELECTOR, "div[id='payment'] div[class='blockUI blockOverlay']")
+    _success_message = (By.CSS_SELECTOR, "p[class*='thankyou-order-received']")
 
     @property
     def loaded(self):
@@ -43,3 +46,11 @@ class CheckoutPage(BasePage):
     def fill_mail(self, mail):
         self.find_element(*self._mail).send_keys(mail)
         return self
+
+    def buy_and_pay(self):
+        self.wait.until(self.ec.invisibility_of_element_located(self._payment_blocker))
+        self.wait.until(self.ec.element_to_be_clickable(self._buy_and_pay_button)).click()
+
+    def verify_success_message(self):
+        message = self.wait.until(self.ec.visibility_of_element_located(self._success_message))
+        assert message.text == "Dziękujemy. Otrzymaliśmy Twoje zamówienie."
