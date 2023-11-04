@@ -1,4 +1,5 @@
 import pytest
+from config import config
 from pages.cart_page import CartPage
 from pages.checkout_page import CheckoutPage
 from pages.home_page import HomePage
@@ -6,6 +7,7 @@ from pages.store_page import StorePage
 
 
 @pytest.mark.usefixtures("driver")
+@pytest.mark.flaky(reruns=config.RERUN)
 class TestOrderProcessing:
     def test_order_product_as_a_gest(self):
         home_page = HomePage(self.driver).open()

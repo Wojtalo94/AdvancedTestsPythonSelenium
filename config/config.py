@@ -8,3 +8,4 @@ with open("config/config.yml", "r") as file:
     MAX_WAIT = config["max_wait"]
     HEADLESS = config["headless"]
     FULLSCREEN = config["fullscreen"]
+    RERUN = config["rerun"]
