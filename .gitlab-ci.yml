@@ -3,3 +3,11 @@ image: python 3.8
 e2e:remote:chrome:
   before_script:
     - pip3 install -r requirements.txt
+  script:
+    - mkdir reports
+    - pytest ./tests --html=reports/report.html
+  artifacts:
+    expire_in: 1 week
+    when: always
+    paths:
+      - reports
