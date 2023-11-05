@@ -11,3 +11,5 @@ e2e:remote:chrome:
     when: always
     paths:
       - reports
+  services:
+    - selenium/standalone-chrome:latest

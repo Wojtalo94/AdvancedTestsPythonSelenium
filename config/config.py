@@ -9,3 +9,4 @@ with open("config/config.yml", "r") as file:
     HEADLESS = config["headless"]
     FULLSCREEN = config["fullscreen"]
     RERUN = config["rerun"]
+    REMOTE_MODE = config["remote_mode"]

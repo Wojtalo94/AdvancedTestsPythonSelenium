@@ -6,3 +6,4 @@ max_wait: 8
 headless: true
 fullscreen: true
 rerun: 2
+remote_mode: true
