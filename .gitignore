@@ -1,0 +1,8 @@
+.pytest_cache
+assets
+screenshots
+report.html
+.DS_Store
+venv
+vcs.xml
+AdvancedTestsPythonSelenium.iml
