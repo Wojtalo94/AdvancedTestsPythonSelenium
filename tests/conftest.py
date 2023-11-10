@@ -53,8 +53,12 @@ def pytest_runtest_makereport(item):
         screenshot_path = os.path.join(screenshot_dir, filename)
         driver.save_screenshot(screenshot_path)
 
-        # Add the screenshot path to the test report
-        extra.append(pytest_html.extras.image(screenshot_path))
+        html = (
+            f'<div><img src="{filename}" style="width:300px;height:230px;"'
+            f'onclick="window.open(this.src)" align="right"/></div>'
+        )
+        extra.append(pytest_html.extras.html(html))
+
     report.extra = extra
 
 
