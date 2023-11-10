@@ -17,7 +17,7 @@ class TestOrderProcessing:
         store_page = StorePage(self.driver).wait_for_page_to_load()
         store_page.add_item_to_cart("Belt")
 
-        assert home_page.menu.amount == '65,00'
+        assert home_page.menu.amount == '6665,00'
         home_page.menu.menu_pop_up().go_to_the_cart()
 
         cart_page = CartPage(self.driver).wait_for_page_to_load()
