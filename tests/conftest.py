@@ -54,7 +54,6 @@ def pytest_runtest_makereport(item):
         driver.save_screenshot(screenshot_path)
 
         # Create html file with the screenshot to add to the report
-
         html = (
             f'<div><img src="{filename}" style="width:300px;height:230px;"'
             f'onclick="window.open(this.src)" align="right"/></div>'
