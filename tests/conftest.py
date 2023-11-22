@@ -1,6 +1,5 @@
 import os
 from datetime import datetime
-
 import pytest
 from selenium import webdriver
 from config.config import HEADLESS, FULLSCREEN, REMOTE_MODE

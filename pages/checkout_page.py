@@ -14,6 +14,7 @@ class CheckoutPage(BasePage):
     _buy_and_pay_button = (By.CSS_SELECTOR, "button[id='place_order']")
     _payment_blocker = (By.CSS_SELECTOR, "div[id='payment'] div[class='blockUI blockOverlay']")
     _success_message = (By.CSS_SELECTOR, "p[class*='thankyou-order-received']")
+    _required_email_message = (By.CSS_SELECTOR, "li[data-id='billing_email']")
 
     @property
     def loaded(self):
@@ -47,6 +48,10 @@ class CheckoutPage(BasePage):
         self.find_element(*self._mail).send_keys(mail)
         return self
 
+    def clear_mail(self):
+        self.find_element(*self._mail).clear()
+        return self
+
     def buy_and_pay(self):
         self.wait.until(self.ec.invisibility_of_element_located(self._payment_blocker))
         self.wait.until(self.ec.element_to_be_clickable(self._buy_and_pay_button)).click()
@@ -54,3 +59,7 @@ class CheckoutPage(BasePage):
     def verify_success_message(self):
         message = self.wait.until(self.ec.visibility_of_element_located(self._success_message))
         assert message.text == "Dziękujemy. Otrzymaliśmy Twoje zamówienie."
+
+    def verify_the_required_email_message(self):
+        message = self.wait.until(self.ec.visibility_of_element_located(self._required_email_message))
+        assert message.text == "Adres e-mail płatnika jest wymaganym polem."

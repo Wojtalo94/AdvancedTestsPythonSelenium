@@ -6,4 +6,4 @@ report.html
 venv
 vcs.xml
 AdvancedTestsPythonSelenium.iml
-report.html
+.idea

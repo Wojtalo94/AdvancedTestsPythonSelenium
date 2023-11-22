@@ -1,7 +1,8 @@
 from selenium.webdriver.common.by import By
-from helpers.helpers import find_item_by_name
+from helpers.helpers import find_item_in_cart_by_name
 from pages.base_page import BasePage
-from pages.regions.base_region import BaseRegion
+from pages.regions.item_in_cart import ItemInCart
+from pages.regions.menu_region import MenuRegion
 
 
 class CartPage(BasePage):
@@ -11,6 +12,7 @@ class CartPage(BasePage):
     _vat = (By.CSS_SELECTOR, "td[data-title='VAT'] span[class*='Price-amount']")
     _order_total_amount = (By.CSS_SELECTOR, "td[data-title='Łącznie'] span[class*='Price-amount']")
     _checkout_button = (By.XPATH, "//a[@class='checkout-button button alt wc-forward']")
+    _successfully_removed_message = (By.CSS_SELECTOR, "div[class='woocommerce-message']")
 
     @property
     def loaded(self):
@@ -18,7 +20,7 @@ class CartPage(BasePage):
 
     @property
     def items_in_the_cart(self):
-        return [CartItem(self, product) for product in self.find_elements(*self._product_in_the_cart)]
+        return [ItemInCart(self, product) for product in self.find_elements(*self._product_in_the_cart)]
 
     @property
     def delivery_fee(self):
@@ -39,37 +41,25 @@ class CartPage(BasePage):
         if total_price is None:
             total_price = item_unit_price
 
-        item = find_item_by_name(self.items_in_the_cart, item_name)
+        item = find_item_in_cart_by_name(self.items_in_the_cart, item_name)
 
         assert item.item_unit_price == item_unit_price
         assert item.quantity == quantity
         assert item.item_total_price == total_price
 
+    def verify_removed_item_message(self, item_name):
+        message = self.wait.until(self.ec.visibility_of_element_located(self._successfully_removed_message))
+        assert message.text == f"Usunięto: „{item_name}”. Cofnij?"
+
     def click_checkout_button(self):
         self.find_element(*self._checkout_button).click()
 
+    def remove_item_from_cart(self, item_name):
+        menu = MenuRegion(self)
+        amount_before_change = self.menu.amount
+        find_item_in_cart_by_name(self.items_in_the_cart, item_name).click_remove_item_from_cart_button()
 
-class CartItem(BaseRegion):
-    _name = (By.CSS_SELECTOR, "td[class*='product-name']")
-    _item_unit_price = (By.CSS_SELECTOR, "td[class*='product-price']")
-    _quantity = (By.CSS_SELECTOR, "td[class*='product-quantity'] input[id*='quantity']")
-    _item_total_price = (By.CSS_SELECTOR, "td[class*='product-subtotal'] ")
-
-    @property
-    def name(self):
-        return self.find_element(*self._name).text
-
-    @property
-    def item_unit_price(self):
-        price = self.find_element(*self._item_unit_price).text
-        return price[1:]
-
-    @property
-    def quantity(self):
-        item_quantity = self.find_element(*self._quantity)
-        return item_quantity.get_attribute("value")
-
-    @property
-    def item_total_price(self):
-        price = self.find_element(*self._item_total_price).text
-        return price[1:]
+        self.wait.until(
+            lambda page: amount_before_change != menu.amount,
+            f"Amount is equal to {menu.amount} after adding item to cart!",
+        )
